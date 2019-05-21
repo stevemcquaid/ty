@@ -1,10 +1,12 @@
-run: ## Run the website locally
-	@export JEKYLL_VERSION=3.8
-	@docker run --rm \
- 	-v ${PWD}:/srv/jekyll \
-	-d -p 1234:1234 jekyll/jekyll:${JEKYLL_VERSION} \
-	jekyll build
-	@open http://localhost:1234
+run: build ## Run the website locally
+	@docker run -d -p 8080:80 --rm --name tywebsite -v "${PWD}":/var/www/ stevemcquaid/ty
+	@open http://localhost:8080
+
+stop: ## stop the docker container
+	@docker stop tywebsite
+
+build: ## build the docker container
+	@docker build -t stevemcquaid/ty:latest .
 
 # Absolutely awesome: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
